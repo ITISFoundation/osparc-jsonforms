@@ -1,10 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const inputs_path = process.env.DY_SIDECAR_PATH_INPUTS
-const outputs_path = process.env.DY_SIDECAR_PATH_OUTPUTS
+const inputs_path = process.env.DY_SIDECAR_PATH_INPUTS;
+const outputs_path = process.env.DY_SIDECAR_PATH_OUTPUTS;
+
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import path from "path";
+import fs from "fs";
 
 const app = express();
 app.use(cors());

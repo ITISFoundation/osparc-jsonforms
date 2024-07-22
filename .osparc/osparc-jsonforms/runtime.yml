@@ -2,7 +2,7 @@ restart-policy: no-restart
 settings:
   - name: ports
     type: int
-    value: 3001
+    value: 8888
   - name: constraints
     type: string
     value:

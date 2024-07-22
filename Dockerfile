@@ -26,12 +26,12 @@ RUN npm install vite @vitejs/plugin-react --save-dev
 RUN npm create vite@latest jsonform -- --template react
 
 WORKDIR /docker/jsonform
+RUN npm install @jsonforms/core @jsonforms/react @jsonforms/material-renderers @mui/material @emotion/react @emotion/styled
+RUN npm install express cors body-parser
+
 COPY docker_scripts/src/App.jsx /docker/jsonform/src
 COPY docker_scripts/package.json /docker/jsonform
 COPY docker_scripts/server.js /docker/jsonform
-
-RUN npm install @jsonforms/core @jsonforms/react @jsonforms/material-renderers @mui/material @emotion/react @emotion/styled
-RUN npm install express cors body-parser
 
 ENV VITE_BACKEND_URL=http://host.docker.internal:3001
 
