@@ -6,12 +6,18 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/schema', (req, res) => {
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/api/schema', (req, res) => {
   const filePath = path.join(inputs_path, 'input_0', 'schema.json');
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
@@ -23,7 +29,7 @@ app.get('/schema', (req, res) => {
   });
 });
 
-app.post('/save', (req, res) => {
+app.post('/api/save', (req, res) => {
   const data = JSON.stringify(req.body, null, 2);
   const filePath = path.join(outputs_path, 'output_0', 'form-data.json');
   
@@ -38,7 +44,11 @@ app.post('/save', (req, res) => {
   });
 });
 
-const PORT = 3001;
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+const PORT = 8888;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -33,8 +33,8 @@ COPY docker_scripts/src/App.jsx /docker/jsonform/src
 COPY docker_scripts/package.json /docker/jsonform
 COPY docker_scripts/server.js /docker/jsonform
 
-ENV VITE_BACKEND_URL=http://host.docker.internal:3001
+RUN npm run build
 
 EXPOSE 8888
 
-CMD ["sh", "-c", "node server.js & npm run start"]
+CMD ["sh", "-c", "node server.js"]

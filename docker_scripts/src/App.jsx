@@ -9,14 +9,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { blue, pink } from '@mui/material/colors';
 
-// Dynamically determine the backend URL
-const getBackendUrl = () => {
-  const protocol = window.location.protocol;
-  const hostname = window.location.hostname;
-  const backendPort = 3001;
-  return `${protocol}//${hostname}:${backendPort}`;
-};
-
 // Create a custom theme
 const theme = createTheme({
   palette: {
@@ -47,12 +39,11 @@ function App() {
   const [schema, setSchema] = useState(null);
   const [uischema, setUischema] = useState({});
   const [data, setData] = useState({});
-  const backendUrl = getBackendUrl();
 
   useEffect(() => {
     const fetchSchema = async () => {
       try {
-        const response = await fetch(`${backendUrl}/schema`);
+        const response = await fetch('api/schema');
         const schemaData = await response.json();
         setSchema(schemaData);
         setUischema({
@@ -68,11 +59,11 @@ function App() {
     };
 
     fetchSchema();
-  }, [backendUrl]);
+  }, []);
 
   const onSubmit = async () => {
     try {
-      const response = await fetch(`${backendUrl}/save`, {
+      const response = await fetch('api/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
