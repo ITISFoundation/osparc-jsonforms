@@ -5,7 +5,7 @@ SHELL = /bin/sh
 
 export DOCKER_IMAGE_NAME ?= osparc-jsonforms
 
-export DOCKER_IMAGE_TAG ?= 0.0.1
+export DOCKER_IMAGE_TAG ?= 0.0.2
 
 export MASTER_AWS_REGISTRY ?= registry.osparc-master-zmt.click
 export MASTER_REGISTRY ?= registry.osparc-master.speag.com
