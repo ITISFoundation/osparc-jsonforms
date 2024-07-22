@@ -1,6 +1,6 @@
 FROM ubuntu:22.04 as base
 
-#RUN useradd -m -r osparcuser
+RUN useradd -m -r osparcuser
 
 USER root
 
@@ -20,20 +20,25 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest
 
-WORKDIR /docker
+USER osparcuser
+
+WORKDIR /home/osparcuser
 
 RUN npm install vite @vitejs/plugin-react --save-dev
 RUN npm create vite@latest jsonform -- --template react
 
-WORKDIR /docker/jsonform
+WORKDIR /home/osparcuser/jsonform
+
 RUN npm install @jsonforms/core @jsonforms/react @jsonforms/material-renderers @mui/material @emotion/react @emotion/styled
 RUN npm install express cors body-parser
 
-COPY docker_scripts/src/App.jsx /docker/jsonform/src
-COPY docker_scripts/package.json /docker/jsonform
-COPY docker_scripts/server.js /docker/jsonform
+COPY docker_scripts/src/App.jsx src
+COPY docker_scripts/package.json .
+COPY docker_scripts/server.js .
 
 RUN npm run build
+
+USER root
 
 EXPOSE 8888
 
