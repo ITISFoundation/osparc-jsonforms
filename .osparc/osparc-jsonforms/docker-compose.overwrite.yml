@@ -1,0 +1,4 @@
+services:
+  osparc-jsonforms:
+    build:
+      dockerfile: Dockerfile

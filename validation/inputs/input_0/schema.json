@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "conf_string": {
+      "type": "string",
+      "title": "Config string"
+    },
+    "conf_int": {
+      "type": "integer",
+      "title": "Config integer"
+    },
+    "done": {
+      "type": "boolean",
+      "title": "Done?"
+    }
+  },
+  "required": ["conf_string"]
+}

@@ -1,0 +1,27 @@
+restart-policy: no-restart
+settings:
+  - name: ports
+    type: int
+    value: 3001
+  - name: constraints
+    type: string
+    value:
+      - node.platform.os == linux
+  - name: Resources
+    type: Resources
+    value:
+      Limits:
+        NanoCPUs: 4000000000
+        MemoryBytes: 17179869184
+paths-mapping:
+  inputs_path: /home/osparcuser/work/inputs
+  outputs_path: /home/osparcuser/work/outputs
+  state_paths:
+    - /home/osparcuser/work/workspace
+
+compose-spec:
+  version: "3.7"
+  services:
+    osparc-jsonforms:
+      image: $${SIMCORE_REGISTRY}/simcore/services/dynamic/osparc-jsonforms:$${SERVICE_VERSION}
+container-http-entrypoint: osparc-meta-jsonforms
