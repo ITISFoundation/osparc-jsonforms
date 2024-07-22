@@ -24,4 +24,4 @@ compose-spec:
   services:
     osparc-jsonforms:
       image: $${SIMCORE_REGISTRY}/simcore/services/dynamic/osparc-jsonforms:$${SERVICE_VERSION}
-container-http-entrypoint: osparc-meta-jsonforms
+container-http-entrypoint: osparc-jsonforms
