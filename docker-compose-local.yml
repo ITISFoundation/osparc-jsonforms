@@ -1,6 +1,6 @@
 services:
   osparc-jsonforms:
-    image: simcore/services/dynamic/osparc-jsonforms:0.0.8
+    image: simcore/services/dynamic/osparc-jsonforms:0.0.9
     ports:
       - "8888:8888"
       - "3001:3001"

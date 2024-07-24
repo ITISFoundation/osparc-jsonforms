@@ -2,7 +2,7 @@ name: JSONForms
 description: "JSONFormsService"
 key: simcore/services/dynamic/osparc-jsonforms
 thumbnail: https://jsonforms.io/img/logo.svg
-version: 0.0.8
+version: 0.0.9
 integration-version: 2.0.0
 type: dynamic
 authors:
