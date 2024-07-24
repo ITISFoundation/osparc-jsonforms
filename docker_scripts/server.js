@@ -29,7 +29,7 @@ app.get('/api/schema', (req, res) => {
   });
 });
 
-app.get('api/schemaLastModified', (req, res) => {
+app.get('/api/schemaLastModified', (req, res) => {
   const filePath = path.join(inputs_path, 'input_0', 'schema.json');
   fs.stat(filePath, (err, stats) => {
     if (err) {
