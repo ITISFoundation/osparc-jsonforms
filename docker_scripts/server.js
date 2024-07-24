@@ -29,6 +29,17 @@ app.get('/api/schema', (req, res) => {
   });
 });
 
+app.get('api/schemaLastModified', (req, res) => {
+  const filePath = path.join(inputs_path, 'input_0', 'schema.json');
+  fs.stat(filePath, (err, stats) => {
+    if (err) {
+      res.status(500).send('Error checking schema modification time');
+    } else {
+      res.json({ lastModified: stats.mtime.getTime() });
+    }
+  });
+});
+
 app.post('/api/save', (req, res) => {
   const data = JSON.stringify(req.body, null, 2);
   const filePath = path.join(outputs_path, 'output_0', 'form-data.json');
@@ -43,6 +54,7 @@ app.post('/api/save', (req, res) => {
     }
   });
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));

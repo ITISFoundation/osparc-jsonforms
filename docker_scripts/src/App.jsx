@@ -36,83 +36,99 @@ const theme = createTheme({
 });
 
 function App() {
-  const [schema, setSchema] = useState(null);
-  const [uischema, setUischema] = useState({});
-  const [data, setData] = useState({});
+    const [schema, setSchema] = useState(null);
+    const [uischema, setUischema] = useState({});
+    const [data, setData] = useState({});
+    const [lastModified, setLastModified] = useState(null);
 
-  useEffect(() => {
     const fetchSchema = async () => {
-      try {
+        try {
         const response = await fetch('api/schema');
         const schemaData = await response.json();
         setSchema(schemaData);
         setUischema({
-          type: 'VerticalLayout',
-          elements: Object.keys(schemaData.properties).map(key => ({
+            type: 'VerticalLayout',
+            elements: Object.keys(schemaData.properties).map(key => ({
             type: 'Control',
             scope: '#/properties/' + key
-          }))
+            }))
         });
-      } catch (error) {
+        } catch (error) {
         console.error('Error fetching schema:', error);
-      }
+        }
     };
 
-    fetchSchema();
-  }, []);
+    
+    useEffect(() => {
+        fetchSchema();
+        const intervalId = setInterval(checkSchemaUpdate, 5000); // Check every 5 seconds
+        return () => clearInterval(intervalId); // Cleanup on unmount
+    }, []);
 
-  const onSubmit = async () => {
+    const checkSchemaUpdate = () => {
+    fetch(`api/schemaLastModified`)
+        .then(response => response.json())
+        .then(data => {
+        if (lastModified === null || data.lastModified > lastModified) {
+            setLastModified(data.lastModified);
+            fetchSchema();
+        }
+        })
+        .catch(error => console.error('Error checking schema update:', error));
+    };
+
+    const onSubmit = async () => {
     try {
-      const response = await fetch('api/save', {
+        const response = await fetch('api/save', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      });
-      const result = await response.text();
-      console.log(result);
+        });
+        const result = await response.text();
+        console.log(result);
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     }
-  };
+    };
 
-  if (!schema) return (
+    if (!schema) return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="sm">
+        <CssBaseline />
+        <Container maxWidth="sm">
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-          <Typography variant="h4">Loading schema...</Typography>
+            <Typography variant="h4">Loading schema...</Typography>
         </Box>
-      </Container>
+        </Container>
     </ThemeProvider>
-  );
+    );
 
-  return (
+    return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="sm">
+        <CssBaseline />
+        <Container maxWidth="sm">
         <Box sx={{ mt: 4 }}>
-          <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom>
             Configuration
-          </Typography>
-          <JsonForms
+            </Typography>
+            <JsonForms
             schema={schema}
             uischema={uischema}
             data={data}
             renderers={materialRenderers}
             cells={materialCells}
             onChange={({ data }) => setData(data)}
-          />
-          <Box sx={{ mt: 2 }}>
+            />
+            <Box sx={{ mt: 2 }}>
             <Button variant="contained" color="primary" onClick={onSubmit} size="large">
-              Submit
+                Submit
             </Button>
-          </Box>
+            </Box>
         </Box>
-      </Container>
+        </Container>
     </ThemeProvider>
-  );
+    );
 }
 
 export default App;
