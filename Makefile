@@ -5,7 +5,7 @@ SHELL = /bin/sh
 
 export DOCKER_IMAGE_NAME ?= osparc-jsonforms
 
-export DOCKER_IMAGE_TAG ?= 0.0.9
+export DOCKER_IMAGE_TAG ?= 0.0.10
 
 export MASTER_AWS_REGISTRY ?= registry.osparc-master-zmt.click
 export MASTER_REGISTRY ?= registry.osparc-master.speag.com
@@ -51,7 +51,7 @@ docker_compose:
 	docker compose --file docker-compose-local.yml up
 	
 .PHONY: run-local
-run-local: docker_compose	## runs image with local configuration
+run-local: build docker_compose	## runs image with local configuration
 
 
 .PHONY: publish-local
@@ -67,7 +67,7 @@ publish-master: ## push to local throw away registry to test integration
 	@curl $(MASTER_REGISTRY)/v2/_catalog
 
 .PHONY: publish-staging
-publish-staging: ## push to local throw away registry to test integration
+publish-staging: build ## push to local throw away registry to test integration
 	docker tag simcore/services/dynamic/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} $(STAGING_REGISTRY)/simcore/services/dynamic/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
 	docker push $(STAGING_REGISTRY)/simcore/services/dynamic/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)
 

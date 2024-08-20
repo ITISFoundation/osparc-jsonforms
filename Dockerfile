@@ -3,25 +3,8 @@ FROM node:alpine as base
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NOWARNINGS="yes"
 
-
-#RUN apt-get update --yes && apt-get upgrade --yes 
-#RUN apt-get update --yes 
-#RUN apt-get install --yes \
-#    useradd \
-#    apt-utils \
-#    curl \
-#    gnupg \
-#    git \
- #   && rm -rf /var/lib/apt/lists/*
-
 RUN adduser osparcuser \
     --disabled-password
-
-USER root
-
-#RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-#    && apt-get install -y nodejs \
-#    && npm install -g npm@latest
 
 USER osparcuser
 

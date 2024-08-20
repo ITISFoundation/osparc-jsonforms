@@ -42,8 +42,8 @@ app.get('/api/schemaLastModified', (req, res) => {
 
 app.post('/api/save', (req, res) => {
   const data = JSON.stringify(req.body, null, 2);
-  const filePath = path.join(outputs_path, 'output_0', 'form-data.json');
-  
+  const filePath = path.join(outputs_path, 'output_0', 'settings.json');
+
   fs.writeFile(filePath, data, (err) => {
     if (err) {
       console.error('Error writing file', err);
